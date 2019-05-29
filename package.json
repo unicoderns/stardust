@@ -1,0 +1,53 @@
+{
+  "name": "@unicoderns/stardust",
+  "version": "0.0.3",
+  "description": "Unicoderns modular opinionated framework",
+  "author": {
+    "name": "Unicoderns S.A.",
+    "email": "info@unicoderns.com",
+    "url": "https://unicoderns.com/"
+  },
+  "main": "index",
+  "types": "index.d",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf ./controllers/ && rm -rf ./interfaces/ && rm -rf ./lib/ && rm -rf *.js && rm -rf ./lib/ && rm -rf *.js.map && rm -rf *.d.ts",
+    "prepare": "tsc",
+    "test": "ts-node node_modules/jasmine/bin/jasmine sources/tests/**/*.test.ts"
+  },
+  "bugs": {
+    "url": "https://github.com/unicoderns/stardust/issues",
+    "email": "info@unicoderns.com"
+  },
+  "keywords": [
+    "modular",
+    "opinionated",
+    "framework",
+    "realtime"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.1",
+    "@types/express": "^4.16.1",
+    "@types/fs-extra": "^7.0.0",
+    "@types/jasmine": "^3.3.12",
+    "@types/morgan": "^1.7.35",
+    "@types/mysql": "^2.15.6",
+    "jasmine": "^3.4.0",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@types/nodemailer": "^6.1.1",
+    "@unicoderns/cerberus": "^0.1.0",
+    "@unicoderns/orm": "^0.2.1",
+    "aws-sdk": "^2.463.0",
+    "chalk": "^2.4.2",
+    "cookie-parser": "^1.4.4",
+    "es6-promise": "^4.2.6",
+    "express": "^4.17.0",
+    "fs-extra": "^8.0.1",
+    "morgan": "^1.9.1",
+    "nodemailer": "^6.2.1"
+  }
+}
