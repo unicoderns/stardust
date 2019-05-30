@@ -43,6 +43,10 @@ class Controller {
         this.config = config;
         this.namespaces = namespaces;
         this.url = url;
+        this.init();
+    }
+    /*** Init Controller */
+    init() {
     }
     /*** Setup Controller */
     setup() {

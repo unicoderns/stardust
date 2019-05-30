@@ -51,6 +51,11 @@ export default class Controller {
         this.config = config;
         this.namespaces = namespaces;
         this.url = url;
+        this.init();
+    }
+
+    /*** Init Controller */
+    protected init(): void {
     }
 
     /*** Setup Controller */

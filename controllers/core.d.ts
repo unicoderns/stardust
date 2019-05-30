@@ -19,6 +19,8 @@ export default class Controller {
      * Load library, app configuration and install routes
      */
     constructor(lib: Lib, config: SysConfig, url: string, namespaces: string[]);
+    /*** Init Controller */
+    protected init(): void;
     /*** Setup Controller */
     setup(): void;
     /*** Define routes */
