@@ -61,8 +61,10 @@ export default class HtmlController extends Controller {
      */
     protected render(req: Request, res: Response, file: string, params: any = {}): void {
         this.lib.path.get(this.config.folder, this.config.name, file).then((path: string) => {
-            res.render(path, params);
-        });
+            res.render(path, params)
+        }).catch((err) => {
+            console.error(err);
+        })
     }
 
 }

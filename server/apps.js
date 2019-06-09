@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)                                                                  //
 //                                                                                        //
-// Copyright (C) 2019  Unicoderns SA - info@unicoderns.com - unicoderns.com               //
+// Copyright (C) 2016  Unicoderns SA - info@unicoderns.com - unicoderns.com               //
 //                                                                                        //
 // Permission is hereby granted, free of charge, to any person obtaining a copy           //
 // of this software and associated documentation files (the "Software"), to deal          //
@@ -37,23 +37,23 @@ const fse = __importStar(require("fs-extra"));
 const batch_1 = __importDefault(require("./batch"));
 const log_1 = __importDefault(require("./log"));
 /**
- * JSloth apps related tools.
+ * Stardust apps related tools.
  */
 class Apps {
     /**
-     * Load configuration, JSloth library and Express application.
+     * Load configuration, library and Express application.
      *
      * @param config System configuration
-     * @param jsloth JSloth Library
+     * @param lib Library
      * @param express Express app
      */
-    constructor(config, jsloth, express) {
+    constructor(config, lib, express) {
         /*** List of apps (System + Custom) */
         this.apps = [];
         this.config = config;
-        this.jsloth = jsloth;
+        this.lib = lib;
         this.express = express;
-        this.batch = new batch_1.default(jsloth);
+        this.batch = new batch_1.default(lib);
     }
     /**
      * Start installation process
@@ -74,7 +74,10 @@ class Apps {
      */
     emptyApp() {
         let app = {
-            config: null,
+            config: {
+                name: "",
+                config: null
+            },
             done: false,
             complete: {
                 api: false,
@@ -127,12 +130,12 @@ class Apps {
      * @param next
      */
     installApp(app, type, next) {
-        let appUrl = this.jsloth.context.sourceURL + "apps/";
+        let appUrl = this.lib.context.sourceURL + "apps/";
         if (type == "system") {
-            appUrl = this.jsloth.context.sourceURL + "system/apps/";
+            appUrl = this.lib.context.sourceURL + "system/apps/";
         }
         let compileSCSS = () => {
-            this.batch.compileSCSS(appUrl + app.config.name, this.jsloth.context.baseURL + "dist/static/" + app.config.name).then((success) => {
+            this.batch.compileSCSS(appUrl + app.config.name, this.lib.context.baseURL + "dist/static/" + app.config.name).then((success) => {
                 app.complete.scss = true;
                 app.success.scss = success;
                 this.installed(app, next);
@@ -152,7 +155,7 @@ class Apps {
             app.success.scss = false;
         }
         else {
-            this.batch.copyPublic(appUrl + app.config.name + "/public/", this.jsloth.context.baseURL + "dist/static/" + app.config.name).then((success) => {
+            this.batch.copyPublic(appUrl + app.config.name + "/public/", this.lib.context.baseURL + "dist/static/" + app.config.name).then((success) => {
                 app.complete.public = true;
                 app.success.public = success;
                 compileSCSS(); // Wait the structure to compile
@@ -195,16 +198,16 @@ class Apps {
      * @param next
      */
     loadRoutes(app, appType, routeType, basepath, next) {
-        let appUrl = this.jsloth.context.sourceURL + "apps/";
+        let appUrl = this.lib.context.sourceURL + "apps/";
         if (appType == "system") {
-            appUrl = this.jsloth.context.sourceURL + "system/apps/";
+            appUrl = this.lib.context.sourceURL + "system/apps/";
         }
         let appFileUrl = appUrl + app.config.name + "/" + routeType;
         fse.pathExists(appFileUrl + ".ts").then((exists) => {
             if (exists) {
                 let url = basepath + (app.config.basepath || "/");
                 let appRoute = require(appFileUrl);
-                let route = new appRoute.Urls(this.jsloth, app.config, url, [app.config.name]);
+                let route = new appRoute.Urls(this.lib, app.config, url, [app.config.name]);
                 this.express.use(url, route.router);
                 if (routeType == "routes") {
                     app.complete.routes = true;

@@ -23,43 +23,12 @@
 // SOFTWARE.                                                                              //
 ////////////////////////////////////////////////////////////////////////////////////////////
 Object.defineProperty(exports, "__esModule", { value: true });
-/**
-* Stardust Context
-* System context storage.
-*/
-class JSContext {
-    /*** Configuration methods */
-    constructor(lib, sourceURL) {
-        /*** System Urls */
-        this.baseURL = "";
-        this.sourceURL = "";
-        /*** System Urls */
-        this.urls = {};
-        this.lib = lib;
-        this.sourceURL = sourceURL + "/";
-        this.baseURL = sourceURL + "/../";
-        this.userCache = {};
-    }
-    /**
-     * Set new url.
-     *
-     * @param token url token
-     * @param url url path
-     * @return void
-     */
-    setUrl(token, url) {
-        this.urls[token] = url;
-    }
-    /**
-     * Export full context.
-     *
-     * @return Object
-     */
-    export() {
-        return {
-            urls: this.urls
-        };
+class HttpException extends Error {
+    constructor(status, message) {
+        super(message);
+        this.status = status;
+        this.message = message;
     }
 }
-exports.default = JSContext;
-//# sourceMappingURL=context.js.map
+exports.default = HttpException;
+//# sourceMappingURL=HttpException.js.map

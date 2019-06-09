@@ -1,4 +1,3 @@
-"use strict";
 ////////////////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)                                                                  //
 //                                                                                        //
@@ -22,44 +21,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE          //
 // SOFTWARE.                                                                              //
 ////////////////////////////////////////////////////////////////////////////////////////////
-Object.defineProperty(exports, "__esModule", { value: true });
-/**
-* Stardust Context
-* System context storage.
-*/
-class JSContext {
-    /*** Configuration methods */
-    constructor(lib, sourceURL) {
-        /*** System Urls */
-        this.baseURL = "";
-        this.sourceURL = "";
-        /*** System Urls */
-        this.urls = {};
-        this.lib = lib;
-        this.sourceURL = sourceURL + "/";
-        this.baseURL = sourceURL + "/../";
-        this.userCache = {};
-    }
-    /**
-     * Set new url.
-     *
-     * @param token url token
-     * @param url url path
-     * @return void
-     */
-    setUrl(token, url) {
-        this.urls[token] = url;
-    }
-    /**
-     * Export full context.
-     *
-     * @return Object
-     */
-    export() {
-        return {
-            urls: this.urls
-        };
+
+class HttpException extends Error {
+    status: number;
+    message: string;
+    constructor(status: number, message: string) {
+        super(message);
+        this.status = status;
+        this.message = message;
     }
 }
-exports.default = JSContext;
-//# sourceMappingURL=context.js.map
+
+export default HttpException;

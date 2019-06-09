@@ -35,7 +35,7 @@ const fse = __importStar(require("fs-extra"));
  * Batch commands.
  */
 class Batch {
-    constructor(jsloth) {
+    constructor(lib) {
         /*** Batch process */
         this.exec = require("child_process").exec;
         /**
@@ -48,8 +48,8 @@ class Batch {
         this.compileSCSS = (from, to) => {
             // Create promise
             const p = new Promise((resolve, reject) => {
-                // "node-sass --include-path " + this.jsloth.context.baseURL + "node_modules/foundation-sites/scss --output-style compressed -o " + to + " " + from
-                this.exec("node-sass --include-path " + this.jsloth.context.baseURL + "node_modules/bootstrap/scss --output-style compressed -o " + to + " " + from, function (err, stdout, stderr) {
+                // "node-sass --include-path " + this.lib.context.baseURL + "node_modules/foundation-sites/scss --output-style compressed -o " + to + " " + from
+                this.exec("node-sass --include-path " + this.lib.context.baseURL + "node_modules/bootstrap/scss --output-style compressed -o " + to + " " + from, function (err, stdout, stderr) {
                     if ((stdout.substr(0, 39)) == "Rendering Complete, saving .css file...") {
                         resolve(true);
                     }
@@ -86,7 +86,7 @@ class Batch {
             });
             return p;
         };
-        this.jsloth = jsloth;
+        this.lib = lib;
     }
 }
 exports.default = Batch;

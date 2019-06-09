@@ -1,13 +1,13 @@
-import JSloth from "../lib/core";
+import { Lib } from "../lib/core";
 /**
  * Batch commands.
  */
 export default class Batch {
-    /*** JSloth library */
-    protected jsloth: JSloth;
+    /*** library */
+    protected lib: Lib;
     /*** Batch process */
     private exec;
-    constructor(jsloth: JSloth);
+    constructor(lib: Lib);
     /**
      * Compile SCSS
      *

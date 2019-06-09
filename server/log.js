@@ -39,21 +39,19 @@ class Log {
             // No log for tests
             if (process.env.NODE_ENV != "test") {
                 console.log("");
-                console.log("**********************************************************");
-                console.log("*                                                        *");
-                console.log("*        ██╗███████╗██╗      ██████╗ ████████╗██╗  ██╗   *");
-                console.log("*        ██║██╔════╝██║     ██╔═══██╗╚══██╔══╝██║  ██║   *");
-                console.log("*        ██║███████╗██║     ██║   ██║   ██║   ███████║   *");
-                console.log("*   ██   ██║╚════██║██║     ██║   ██║   ██║   ██╔══██║   *");
-                console.log("*   ╚█████╔╝███████║███████╗╚██████╔╝   ██║   ██║  ██║   *");
-                console.log("*    ╚════╝ ╚══════╝╚══════╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝   *");
-                console.log("*                                        by Unicoderns   *");
-                console.log("*                                                        *");
-                console.log("**********************************************************");
-                console.log("*                                                        *");
-                console.log("*                        Welcome                         *");
-                console.log("*                                                        *");
-                console.log("**********************************************************");
+                console.log("----------------------------------------------------------");
+                console.log("-                                                        -");
+                console.log("-          ___| |_ __ _ _ __ __| |_   _ ___| |_          -");
+                console.log("-         / __| __/ _` | '__/ _` | | | / __| __|         -");
+                console.log("-         \\__ \\ || (_| | | | (_| | |_| \\__ \\ |_          -");
+                console.log("-         |___/\\__\\__,_|_|  \\__,_|\\__,_|___/\\__|         -");
+                console.log("-                                  by unicoderns         -");
+                console.log("-                                                        -");
+                console.log("----------------------------------------------------------");
+                console.log("-                                                        -");
+                console.log("-                        Loading                         -");
+                console.log("-                                                        -");
+                console.log("----------------------------------------------------------");
                 console.log("");
                 console.log(chalk_1.default.bgBlackBright("                          Core                            "));
                 console.log("");

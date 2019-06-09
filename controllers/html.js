@@ -56,6 +56,8 @@ class HtmlController extends core_1.default {
     render(req, res, file, params = {}) {
         this.lib.path.get(this.config.folder, this.config.name, file).then((path) => {
             res.render(path, params);
+        }).catch((err) => {
+            console.error(err);
         });
     }
 }

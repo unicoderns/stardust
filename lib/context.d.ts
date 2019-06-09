@@ -14,7 +14,7 @@ export default class JSContext {
     /*** System Urls */
     private urls;
     /*** Configuration methods */
-    constructor(lib: Lib, baseURL: string);
+    constructor(lib: Lib, sourceURL: string);
     /**
      * Set new url.
      *

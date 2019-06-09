@@ -1,8 +1,8 @@
-import { Application, NextFunction } from "express";
-import JSloth from "../lib/core";
 import SysConfig from "../interfaces/config";
+import { Application, NextFunction } from "express";
+import { Lib } from "../lib/core";
 /**
- * JSloth apps related tools.
+ * Stardust apps related tools.
  */
 export default class Apps {
     /*** List of apps (System + Custom) */
@@ -11,18 +11,18 @@ export default class Apps {
     private config;
     /*** Express app */
     private express;
-    /*** JSloth library */
-    private jsloth;
+    /*** library */
+    private lib;
     /*** Batch server library */
     private batch;
     /**
-     * Load configuration, JSloth library and Express application.
+     * Load configuration, library and Express application.
      *
      * @param config System configuration
-     * @param jsloth JSloth Library
+     * @param lib Library
      * @param express Express app
      */
-    constructor(config: SysConfig, jsloth: JSloth, express: Application);
+    constructor(config: SysConfig, lib: Lib, express: Application);
     /**
      * Start installation process
      *

@@ -2,7 +2,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)                                                                  //
 //                                                                                        //
-// Copyright (C) 2019  Unicoderns SA - info@unicoderns.com - unicoderns.com               //
+// Copyright (C) 2019  Unicoderns S.A. - info@unicoderns.com - unicoderns.com             //
 //                                                                                        //
 // Permission is hereby granted, free of charge, to any person obtaining a copy           //
 // of this software and associated documentation files (the "Software"), to deal          //
@@ -22,44 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE          //
 // SOFTWARE.                                                                              //
 ////////////////////////////////////////////////////////////////////////////////////////////
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
-* Stardust Context
-* System context storage.
+* Unicoderns Stardust Middleware central module
 */
-class JSContext {
-    /*** Configuration methods */
-    constructor(lib, sourceURL) {
-        /*** System Urls */
-        this.baseURL = "";
-        this.sourceURL = "";
-        /*** System Urls */
-        this.urls = {};
-        this.lib = lib;
-        this.sourceURL = sourceURL + "/";
-        this.baseURL = sourceURL + "/../";
-        this.userCache = {};
-    }
-    /**
-     * Set new url.
-     *
-     * @param token url token
-     * @param url url path
-     * @return void
-     */
-    setUrl(token, url) {
-        this.urls[token] = url;
-    }
-    /**
-     * Export full context.
-     *
-     * @return Object
-     */
-    export() {
-        return {
-            urls: this.urls
-        };
-    }
-}
-exports.default = JSContext;
-//# sourceMappingURL=context.js.map
+const sessions_1 = __importDefault(require("./sessions"));
+exports.sessions = sessions_1.default;
+//# sourceMappingURL=index.js.map

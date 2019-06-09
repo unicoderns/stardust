@@ -1,18 +1,17 @@
 import * as app from "../interfaces/app";
-import JSloth from "../lib/core";
+import { Lib } from "../lib/core";
 import { Application } from "express";
 /**
  * Creates and configure an ExpressJS web server.
  *
  * @return express.Application
  */
-export default class Core {
+export declare class Server {
     /*** Express instance */
     express: Application;
     /**
      * Stores the app port
      * @default port System environment port or 8080
-     * Please note: the unary + cast to number
      */
     protected port: number;
     /*** Default configuration filepath */
@@ -20,12 +19,12 @@ export default class Core {
     protected defaultConfigPath: string;
     /*** Apps object */
     protected apps: app.App[];
-    /*** JSloth library */
-    protected jsloth: JSloth;
+    /*** library */
+    protected lib: Lib;
     /**
-     * Load configuration settings, set up JSloth Global Library and start installation.
+     * Load configuration settings, set up Global Library and start installation.
      */
-    constructor();
+    constructor(dirname: string);
     /**
      * Install endpoints, configure and run the Express App instance and load middlewares
      */

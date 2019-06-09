@@ -43,10 +43,10 @@ export default class JSContext {
     private urls: any = {};
 
     /*** Configuration methods */
-    constructor(lib: Lib, baseURL: string) {
+    constructor(lib: Lib, sourceURL: string) {
         this.lib = lib;
-        this.sourceURL = baseURL + "/../../";
-        this.baseURL = this.sourceURL + "../";
+        this.sourceURL = sourceURL + "/";
+        this.baseURL = sourceURL + "/../";
         this.userCache = {};
     }
 

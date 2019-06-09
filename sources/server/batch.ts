@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////
 // The MIT License (MIT)                                                                  //
 //                                                                                        //
-// Copyright (C) 2019  Unicoderns SA - info@unicoderns.com - unicoderns.com               //
+// Copyright (C) 2016  Unicoderns SA - info@unicoderns.com - unicoderns.com               //
 //                                                                                        //
 // Permission is hereby granted, free of charge, to any person obtaining a copy           //
 // of this software and associated documentation files (the "Software"), to deal          //
@@ -22,53 +22,74 @@
 // SOFTWARE.                                                                              //
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-import * as fse from "fs-extra";
+import * as fse from "fs-extra"
 
-import { Promise } from "es6-promise";
 import { Lib } from "../lib/core";
 
 /**
-* Stardust Path
-* Check the right path, search /core/ first and /app/ if is not found it.
-*/
-export default class JSPath {
+ * Batch commands.
+ */
+export default class Batch {
 
-    /*** Stardust library */
+    /*** library */
     protected lib: Lib;
+    /*** Batch process */
+    private exec = require("child_process").exec;
 
-    /*** Configuration methods */
     constructor(lib: Lib) {
         this.lib = lib;
     }
 
     /**
-     * Get the new full path.
-     *
-     * @param file string Filename
-     * @return void
+     * Compile SCSS
+     * 
+     * @param from Source style path
+     * @param to Path for compiled styles
+     * @param next
      */
-    public get(type: string, app: string, file: string): Promise<string> {
-        let customPath: string = app + "/" + file;
-        let path: string = "../source/apps/" + app + "/views/" + file;
-        if (type == "system") {
-            path = "../source/system/apps/" + app + "/views/" + file;
-        }
-
+    public compileSCSS = (from: string, to: string): Promise<any> => {
         // Create promise
-        const p: Promise<string> = new Promise(
-            (resolve: (exists: string) => void, reject: (err: NodeJS.ErrnoException) => void) => {
-                // Resolve promise
-                fse.pathExists(this.lib.context.baseURL + "views/" + customPath + ".ejs").then((exist) => {
-                    if (exist) {
-                        resolve(customPath);
+        const p: Promise<boolean> = new Promise(
+            (resolve: (exists: boolean) => void, reject: (err: NodeJS.ErrnoException) => void) => {
+                // "node-sass --include-path " + this.lib.context.baseURL + "node_modules/foundation-sites/scss --output-style compressed -o " + to + " " + from
+                this.exec("node-sass --include-path " + this.lib.context.baseURL + "node_modules/bootstrap/scss --output-style compressed -o " + to + " " + from, function (err: any, stdout: any, stderr: any) {
+                    if ((stdout.substr(0, 39)) == "Rendering Complete, saving .css file...") {
+                        resolve(true);
                     } else {
-                        resolve(path);
+                        console.error(stderr);
+                        reject(stderr);
                     }
-                }).catch((err: NodeJS.ErrnoException) => {
-                    resolve(path);
-                    throw err;
                 });
-            });
+            }
+        );
+        return p;
+    }
+
+    /**
+     * Clean and copy public folder
+     * 
+     * @param from Source path
+     * @param to Path to place the copy
+     * @param next
+     */
+    public copyPublic = (from: string, to: string): Promise<any> => {
+        const p: Promise<boolean> = new Promise(
+            (resolve: (success: boolean) => void, reject: (err: NodeJS.ErrnoException) => void) => {
+                fse.remove(to).then(() => {
+                    fse.ensureDir(to + "/public/").then(() => {
+                        fse.copy(from, to + "/public/").then(() => {
+                            resolve(true);
+                        }).catch(err => {
+                            reject(err);
+                        })
+                    }).catch(err => {
+                        reject(err);
+                    });
+                }).catch(err => {
+                    console.error(err);
+                });
+            }
+        );
         return p;
     }
 
