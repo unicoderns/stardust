@@ -33,7 +33,6 @@ import logger from "morgan";  // Log requests
 
 import Apps from "./apps";
 import Sessions from "./middlewares/sessions";
-import errors from './middlewares/errors';
 import SysConfig from "../interfaces/config";
 import Log from "./log";
 
@@ -144,7 +143,6 @@ export class Server {
         } else {
             this.express.use(logger("combined"));
         }
-        this.express.use(errors);
         // Use body parser so we can get info from POST and/or URL parameters
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
@@ -162,22 +160,18 @@ export class Server {
             // Everything is installed?
             if (done) {
                 try {
+                    // Errors
+                    // 404
+                    this.express.use(function(req: Request, res: Response, next: NextFunction) {
+                        return res.status(404).send({ message: 'Route' + req.url + ' Not found.' });
+                    });
+                    
+                    // 500 - Any server error
+                    this.express.use(function(err: any, req: Request, res: Response, next: NextFunction) {
+                        return res.status(500).send({ error: err });
+                    });
 
-                    // Errors and 404  
-                    this.express.get("/*", function (req: Request, res: Response, next: NextFunction): any {
-                        res.send("404 error");
-                        // return res.redirect("/errors/404/");
-                    });
-                    this.express.use(function (err: any, req: Request, res: Response, next: NextFunction): any {
-                        console.error("err");
-                        console.error(err);
-                        if (!err.status) {
-                            return res.redirect("/errors/500/");
-                        } else {
-                            return res.redirect("/errors/" + err.status + "/");
-                        }
-                    });
-                    // run
+                    // Run                    
                     this.express.listen(this.port);
                     Log.run(this.port);
                 } catch (e) {

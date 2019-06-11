@@ -41,7 +41,6 @@ const express_1 = __importDefault(require("express"));
 const morgan_1 = __importDefault(require("morgan")); // Log requests
 const apps_1 = __importDefault(require("./apps"));
 const sessions_1 = __importDefault(require("./middlewares/sessions"));
-const errors_1 = __importDefault(require("./middlewares/errors"));
 const log_1 = __importDefault(require("./log"));
 const core_1 = require("../lib/core");
 /**
@@ -127,7 +126,6 @@ class Server {
         else {
             this.express.use(morgan_1.default("combined"));
         }
-        this.express.use(errors_1.default);
         // Use body parser so we can get info from POST and/or URL parameters
         this.express.use(bodyParser.json());
         this.express.use(bodyParser.urlencoded({ extended: false }));
@@ -143,22 +141,16 @@ class Server {
             // Everything is installed?
             if (done) {
                 try {
-                    // Errors and 404  
-                    this.express.get("/*", function (req, res, next) {
-                        res.send("404 error");
-                        // return res.redirect("/errors/404/");
+                    // Errors
+                    // 404
+                    this.express.use(function (req, res, next) {
+                        return res.status(404).send({ message: 'Route' + req.url + ' Not found.' });
                     });
+                    // 500 - Any server error
                     this.express.use(function (err, req, res, next) {
-                        console.error("err");
-                        console.error(err);
-                        if (!err.status) {
-                            return res.redirect("/errors/500/");
-                        }
-                        else {
-                            return res.redirect("/errors/" + err.status + "/");
-                        }
+                        return res.status(500).send({ error: err });
                     });
-                    // run
+                    // Run                    
                     this.express.listen(this.port);
                     log_1.default.run(this.port);
                 }
